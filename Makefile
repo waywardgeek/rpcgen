@@ -16,7 +16,7 @@ all: rpcgen
 rpcgen: depends $(OBJS)
 	gcc $(LFLAGS) -DDD_DEBUG -o rpcgen $(OBJS) -lddutil-dbg
 
-depends:
+depends: codatabase.h codatabase.c
 	gcc -MM $(CFLAGS) $(SOURCE) > depends
 
 clean:

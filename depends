@@ -1,0 +1,5 @@
+codatabase.o: codatabase.c codatabase.h
+coparse.o: coparse.c co.h codatabase.h
+coscan.o: coscan.c co.h codatabase.h coparse.h
+main.o: main.c co.h codatabase.h
+read.o: read.c co.h codatabase.h
