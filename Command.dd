@@ -10,6 +10,7 @@ enum Valtype
     CO_TUPLE
     CO_ARRAY
     CO_TYPEDEF
+    CO_UNBOUND
 
 class Root
 
@@ -27,17 +28,16 @@ class Typedef
 class Command
     array char description
 
-class Parameter
-    
-class Tuple
-    
 class Type
-    Valtype type
-    union type
+    Valtype valtype
+    bool Array
+    union valtype
         Enum enumVal: CO_ENUM
         Typedef typedefVal: CO_TYPEDEF
-        Tuple tupleVal: CO_TUPLE
         Type arrayTypeVal cascade: CO_ARRAY
+        sym name: CO_UNBOUND
+
+class Field
 
 class ValueArray
     array Value value
@@ -46,10 +46,10 @@ class Value
     Valtype type
     union type
         int64 intVal: CO_INT
-        String stringVal: CO_STRING
+        String stringVal cascade: CO_STRING
         double floatVal: CO_FLOAT
         bool boolVal: CO_BOOL
-        Entry entryVal: CO_ENTRY
+        sym entryVal: CO_ENTRY
         ValueArray tupleVal cascade: CO_TUPLE
         ValueArray arrayVal cascade: CO_ARRAY
 
@@ -57,10 +57,12 @@ relationship Root Section hashed
 relationship Root Command hashed
 relationship Root Typedef hashed
 relationship Root Enum hashed
+relationship Root Entry hashed
+relationship Typedef type child_only cascade
 relationship Section Command doubly_linked
-relationship Enum Entry hashed mandatory
-relationship Tuple Type doubly_linked cascade
+relationship Enum Entry doubly_linked mandatory
+relationship Type:Tuple Field hashed mandatory
+relationship Field Type child_only cascade
+relationship Field Value:Default child_only cascade
 relationship Command Type:Return child_only cascade
-relationship Command Parameter hashed mandatory
-relationship Parameter Type child_only cascade
-relationship Parameter Value:Default child_only cascade
+relationship Command Type:Parameter child_only cascade

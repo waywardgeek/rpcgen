@@ -63,17 +63,20 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 43 "coparse.y"
+#line 45 "coparse.y"
 
     utSym symVal;
     utSym stringVal;
     int64 intVal;
     double floatVal;
+    coType typeVal;
+    coValue valueVal;
+    coValueArray valueArrayVal;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 77 "coparse.h"
+#line 80 "coparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

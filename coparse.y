@@ -21,6 +21,8 @@
 #include "co.h"
 
 static coSection coCurrentSection;
+static coEnum coCurrentEnum;
+static coCommand coCurrentCommand;
 
 /*--------------------------------------------------------------------------------------------------
   Provide yyerror function capability.
@@ -45,12 +47,19 @@ void coerror(
     utSym stringVal;
     int64 intVal;
     double floatVal;
+    coType typeVal;
+    coValue valueVal;
+    coValueArray valueArrayVal;
 };
 
 %token <symVal> IDENT
 %token <stringVal> STRING
 %token <intVal> INTEGER
 %token <floatVal> FLOAT
+
+%type <typeVal> type tupleType arrayType fieldList oneOrMoreFields
+%type <valueVal> value optDefaultValue
+%type <valueArrayVal> valueList
 
 %token KWBOOL
 %token KWCHAR
@@ -71,6 +80,8 @@ goal: initialize commands
 initialize: /* Empty */
 {
     coCurrentSection = coSectionNull;
+    coCurrentEnum = coEnumNull;
+    coCurrentCommand = coCommandNull;
 }
 
 commands: /* Empty */
@@ -84,75 +95,168 @@ command: section
 ;
 
 section: KWSECTION STRING
-//{
-//    coCurrentSection = coSectionCreate($2);
-//}
+{
+   coCurrentSection = coSectionCreate($2);
+}
 
 typedef: KWTYPEDEF type IDENT
+{
+    coTypedefCreate($3, $2);
+}
 
-enum: KWENUM IDENT '(' entries ')'
+enum: enumHeader '(' entries ')'
+{
+    coCurrentEnum = coEnumNull;
+}
 ;
+
+
+enumHeader:  KWENUM IDENT
+{
+    coCurrentEnum = coEnumCreate($2);
+}
 
 entries: // Empty
 | oneOrMoreEntries
 ;
 
 oneOrMoreEntries: IDENT
+{
+    coEntryCreate(coCurrentEnum, $1);
+}
 | oneOrMoreEntries ',' IDENT
+{
+    coEntryCreate(coCurrentEnum, $3);
+}
 ;
 
 function: STRING functionDef
+{
+    char *description = utSymGetName($1);
+    coCommandSetDescription(coCurrentCommand, description, strlen(description) + 1);
+    coCurrentCommand = coCommandNull;
+}
 ;
 
-functionDef: IDENT '(' parameterList ')'
-| type IDENT '(' parameterList ')'
-;
-
-parameterList: // Empty
-| oneOrMoreParameters
-;
-
-oneOrMoreParameters: parameter
-| oneOrMoreParameters ',' parameter
-;
-
-parameter: type IDENT optDefaultValue
+functionDef: IDENT '(' fieldList ')'
+{
+    coCurrentCommand = coCommandCreate($1, coTypeNull, $3);
+}
+| type IDENT '(' fieldList ')'
+{
+    coCurrentCommand = coCommandCreate($2, $1, $4);
+}
 ;
 
 optDefaultValue: // Empty
+{
+    $$ = coValueNull;
+}
 | '=' value
+{
+    $$ = $2;
+}
 ;
 
 type: IDENT // Enum or Typedef
+{
+    $$ = coIdentTypeCreate($1);
+}
 | KWINT
+{
+    $$ = coBasicTypeCreate(CO_INT);
+}
 | KWSTRING
+{
+    $$ = coBasicTypeCreate(CO_STRING);
+}
 | KWFLOAT
+{
+    $$ = coBasicTypeCreate(CO_FLOAT);
+}
 | KWBOOL
+{
+    $$ = coBasicTypeCreate(CO_BOOL);
+}
 | tupleType
 | arrayType
-
-tupleType: '{' namedTypeList '}'
 ;
 
-namedTypeList: type IDENT
-| namedTypeList ',' type IDENT
+tupleType: '{' fieldList '}'
+{
+    $$ = $2;
+}
+;
+
+fieldList: // Empty
+{
+    $$ = coTupleTypeCreate();
+}
+| oneOrMoreFields
+;
+
+oneOrMoreFields: type IDENT optDefaultValue
+{
+    $$ = coTupleTypeCreate();
+    coAddFieldToTuple($$, $1, $2, $3);
+}
+| oneOrMoreFields ',' type IDENT optDefaultValue
+{
+    coAddFieldToTuple($1, $3, $4, $5);
+    $$ = $1
+}
 ;
 
 arrayType: '[' type ']'
+{
+    coTypeSetArray($2, true);
+    $$ = $2;
+}
 ;
 
 value: INTEGER
+{
+    $$ = coIntValueCreate($1);
+}
 | STRING
+{
+    $$ = coStringValueCreate($1);
+}
 | FLOAT
+{
+    $$ = coFloatValueCreate($1);
+}
 | KWTRUE
+{
+    $$ = coBoolValueCreate(true);
+}
 | KWFALSE
+{
+    $$ = coBoolValueCreate(false);
+}
 | IDENT // Entry value
+{
+    $$ = coEntryValueCreate($1);
+}
 | '{' valueList '}'
+{
+    $$ = coTupleValueCreate($2);
+}
 | '[' valueList ']'
+{
+    $$ = coArrayValueCreate($2);
+}
 ;
 
 valueList: value
+{
+    $$ = coValueArrayAlloc();
+    coValueArrayAppendValue($$, $1);
+}
 | valueList ',' value
+{
+    coValueArrayAppendValue($1, $3);
+}
 ;
 
 %%

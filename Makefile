@@ -4,10 +4,16 @@ LFLAGS=-lm -g
 #LFLAGS=-lm -g -lddutil
 
 SOURCE=codatabase.c \
+command.c \
 coparse.c \
 coscan.c \
+enum.c \
 main.c \
-read.c
+read.c \
+section.c \
+type.c \
+typedef.c \
+value.c
 
 OBJS=$(patsubst %.c,%.o,$(SOURCE))
 
