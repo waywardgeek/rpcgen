@@ -1,0 +1,74 @@
+typedef {int year, int month, int day, int hour, int minute, int second} Date
+typedef {bool passed, string errorMessage} Result
+
+section "Common commands"
+
+"Whatever you do DONT LOG IN!!!\n"
+Result login(string userName, string password)
+
+"Whatever you do DONT LOG OUT!!!\n"
+logout()
+
+"Now, why would you do that?"
+quit()
+
+"Display help on a command.  If command is null, just list commands."
+string helpCommand(string commandName)
+
+"Just says wether or not you are logged in."
+bool loggedIn()
+
+"Returns the amount of money in your account, in cents"
+int balance()
+
+"Send money to another account".
+{bool success, string errorString} send(string userName, int amount)
+
+"List transactions"
+[{Date date, string userName, amount}] transactions(Date fromDate = {0,0,0}, Date toDate = {0,0,0})
+
+section "For manipulating accounts"
+
+"Create a new user"
+Result newUser(string userName, string shownName, string email, string password)
+
+"Update account information."
+Result updateAccount(string userName, string shownName, string email, string oldPassword,
+    string password = null)
+
+"Get account settings"
+{string userName, string shownName, string email} accountSettings()
+
+"Validate a new user"
+Result validateUser(string userName, string key)
+
+"Delete a user account"
+Result deleteMyAccount()
+
+"Reset a user's password"
+Result resetPassword(string userName)
+
+section "Forums"
+
+"Create a new thread"
+Result newPost(string subject, string message)
+
+"List threads in the forum"
+[{int threadID, string subject, int numPosts}] listThreads()
+
+"Show posts in a thread"
+[{string shownName, string post}] showPosts(int threadID, int startPost, int endPost)
+
+"Reply to a post"
+Result reply(int threadID, int postNumber, string message)
+
+"Start following a thread"
+Result followThread(int threadID)
+
+"Stop following a thread"
+Result leaveThread(int threadID)
+
+section "Administrator only commands"
+
+"Write out the entire database to an ASCII file"
+Result saveDatabase()

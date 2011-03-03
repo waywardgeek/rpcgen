@@ -1,0 +1,66 @@
+module Command co
+
+enum Valtype
+    CO_INT // int64
+    CO_STRING
+    CO_FLOAT // double
+    CO_BOOL
+    CO_ENUM
+    CO_ENTRY
+    CO_TUPLE
+    CO_ARRAY
+    CO_TYPEDEF
+
+class Root
+
+class Section
+
+class Enum
+
+class Entry
+
+class String
+    array char value
+
+class Typedef
+
+class Command
+    array char description
+
+class Parameter
+    
+class Tuple
+    
+class Type
+    Valtype type
+    union type
+        Enum enumVal: CO_ENUM
+        Typedef typedefVal: CO_TYPEDEF
+        Tuple tupleVal: CO_TUPLE
+        Type arrayTypeVal cascade: CO_ARRAY
+
+class ValueArray
+    array Value value
+
+class Value
+    Valtype type
+    union type
+        int64 intVal: CO_INT
+        String stringVal: CO_STRING
+        double floatVal: CO_FLOAT
+        bool boolVal: CO_BOOL
+        Entry entryVal: CO_ENTRY
+        ValueArray tupleVal cascade: CO_TUPLE
+        ValueArray arrayVal cascade: CO_ARRAY
+
+relationship Root Section hashed
+relationship Root Command hashed
+relationship Root Typedef hashed
+relationship Root Enum hashed
+relationship Section Command doubly_linked
+relationship Enum Entry hashed mandatory
+relationship Tuple Type doubly_linked cascade
+relationship Command Type:Return child_only cascade
+relationship Command Parameter hashed mandatory
+relationship Parameter Type child_only cascade
+relationship Parameter Value:Default child_only cascade
