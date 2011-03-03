@@ -1,4 +1,4 @@
-CFLAGS=-Wall -g -c -DDD_DEBUG
+CFLAGS=-Wall -g -c -DDD_DEBUG -DCO_DEBUG
 LFLAGS=-lm -g
 #CFLAGS=-Wall -O2 -c -Wno-unused-parameter 
 #LFLAGS=-lm -g -lddutil

@@ -81,17 +81,16 @@ command: section
 | typedef
 | enum
 | function
-| '\n'
 ;
 
-section: KWSECTION STRING '\n'
+section: KWSECTION STRING
 //{
 //    coCurrentSection = coSectionCreate($2);
 //}
 
-typedef: KWTYPEDEF type IDENT '\n'
+typedef: KWTYPEDEF type IDENT
 
-enum: KWENUM IDENT '(' entries ')' '\n'
+enum: KWENUM IDENT '(' entries ')'
 ;
 
 entries: // Empty
@@ -99,21 +98,14 @@ entries: // Empty
 ;
 
 oneOrMoreEntries: IDENT
-| oneOrMoreEntries ',' optNewline IDENT
+| oneOrMoreEntries ',' IDENT
 ;
 
-optNewline: // Empty
-| '\n'
+function: STRING functionDef
 ;
 
-function: STRING '\n' functionDef '\n'
-;
-
-functionDef: optType IDENT '(' parameterList ')'
-;
-
-optType: // Empty
-| type
+functionDef: IDENT '(' parameterList ')'
+| type IDENT '(' parameterList ')'
 ;
 
 parameterList: // Empty
@@ -121,7 +113,7 @@ parameterList: // Empty
 ;
 
 oneOrMoreParameters: parameter
-| oneOrMoreParameters ',' optNewline parameter
+| oneOrMoreParameters ',' parameter
 ;
 
 parameter: type IDENT optDefaultValue
@@ -143,7 +135,7 @@ tupleType: '{' namedTypeList '}'
 ;
 
 namedTypeList: type IDENT
-| namedTypeList ',' optNewline type IDENT
+| namedTypeList ',' type IDENT
 ;
 
 arrayType: '[' type ']'
@@ -160,7 +152,7 @@ value: INTEGER
 ;
 
 valueList: value
-| valueList ',' optNewline value
+| valueList ',' value
 ;
 
 %%

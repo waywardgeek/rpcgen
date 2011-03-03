@@ -74,15 +74,14 @@ int cowrap(void)
 
 #ifdef CO_DEBUG
 #define myDebug utDebug
-#define retKey(key) myDebug("key"); return key
+#define retKey(key) utDebug(#key "\n"); return key
 #else
+static void noDebug(char *foo, ...) {}
 #define myDebug noDebug
 #define retKey(key) return key
 #endif
 #undef YYLMAX
 #define YYLMAX 4096
-
-static void noDebug(char *foo, ...) {}
 
 %}
 
@@ -90,8 +89,8 @@ static void noDebug(char *foo, ...) {}
 %option noinput
 
 %%
-^[ \t]*\n                       { coLineNum++; }
 [ \t]+                          ;
+\n                              {coLineNum++;}
 
 "bool"                          {retKey(KWBOOL);}
 "char"                          {retKey(KWCHAR);}
@@ -104,7 +103,6 @@ static void noDebug(char *foo, ...) {}
 "true"                          {retKey(KWTRUE);}
 "false"                         {retKey(KWFALSE);}
 
-\n                              { coLineNum++; retKey('\n'); }
 [0-9]+                          { colval.intVal = atoll(cotext);
                                   myDebug("INTEGER %u\n", colval.intVal);
                                   return INTEGER; }

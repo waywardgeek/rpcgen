@@ -3,10 +3,10 @@ typedef {bool passed, string errorMessage} Result
 
 section "Common commands"
 
-"Whatever you do DONT LOG IN!!!\n"
+"Whatever you do DONT LOG IN!!!"
 Result login(string userName, string password)
 
-"Whatever you do DONT LOG OUT!!!\n"
+"Whatever you do DONT LOG OUT!!!"
 logout()
 
 "Now, why would you do that?"
@@ -21,11 +21,12 @@ bool loggedIn()
 "Returns the amount of money in your account, in cents"
 int balance()
 
-"Send money to another account".
+"Send money to another account."
 {bool success, string errorString} send(string userName, int amount)
 
 "List transactions"
-[{Date date, string userName, amount}] transactions(Date fromDate = {0,0,0}, Date toDate = {0,0,0})
+[{Date date, string userName, int amount}] transactions(Date fromDate = {0,0,0,0,0,0},
+    Date toDate = {0,0,0,0,0,0})
 
 section "For manipulating accounts"
 

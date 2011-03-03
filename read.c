@@ -9,6 +9,7 @@ bool coParseCommandFile(
 {
     coFile = fopen(fileName, "r");
 
+    coLineNum = 1;
     if(coFile == NULL) {
         fprintf(stderr, "Unable to open file %s\n", fileName);
         return false;
