@@ -1,8 +1,13 @@
 #include <ddutil.h>
 #include "codatabase.h"
 
+// Main routines
+bool coParseCommandFile(char *fileName);
+
 // Section methods
 coSection coSectionCreate(utSym name);
+
+extern coRoot coTheRoot;
 
 // Lex, Yacc stuff */
 extern FILE *coFile;

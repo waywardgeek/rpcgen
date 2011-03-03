@@ -67,7 +67,7 @@ static char *unmunge(
     return buffer;
 }
 
-int colexwrap(void)
+int cowrap(void)
 {
     return 1;
 }
@@ -85,6 +85,9 @@ int colexwrap(void)
 static void noDebug(char *foo, ...) {}
 
 %}
+
+%option nounput
+%option noinput
 
 %%
 ^[ \t]*\n                       { coLineNum++; }

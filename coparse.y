@@ -35,7 +35,7 @@ void coerror(
     va_start(ap, message);
     buff = utVsprintf(message, ap);
     va_end(ap);
-    utError("Line %d, token \"%s\": %s", coLineNum, colextext, buff);
+    utError("Line %d, token \"%s\": %s", coLineNum, cotext, buff);
 }
 
 %}
@@ -80,7 +80,7 @@ commands: /* Empty */
 command: section
 | typedef
 | enum
-| command
+| function
 | '\n'
 ;
 
@@ -106,10 +106,11 @@ optNewline: // Empty
 | '\n'
 ;
 
-command: STRING '\n' functionDef '\n'
+function: STRING '\n' functionDef '\n'
 ;
 
 functionDef: optType IDENT '(' parameterList ')'
+;
 
 optType: // Empty
 | type
