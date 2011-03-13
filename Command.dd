@@ -1,4 +1,4 @@
-module Command co
+module Function co
 
 enum Valtype
     CO_INT // int64
@@ -25,7 +25,7 @@ class String
 
 class Typedef
 
-class Command
+class Function
     array char description
 
 class Type
@@ -54,15 +54,15 @@ class Value
         ValueArray arrayVal cascade: CO_ARRAY
 
 relationship Root Section hashed
-relationship Root Command hashed
+relationship Root Function hashed
 relationship Root Typedef hashed
 relationship Root Enum hashed
 relationship Root Entry hashed
 relationship Typedef type child_only cascade
-relationship Section Command doubly_linked
+relationship Section Function doubly_linked
 relationship Enum Entry doubly_linked mandatory
 relationship Type:Tuple Field hashed mandatory
 relationship Field Type child_only cascade
 relationship Field Value:Default child_only cascade
-relationship Command Type:Return child_only cascade
-relationship Command Type:Parameter child_only cascade
+relationship Function Type:Return child_only cascade
+relationship Function Type:Parameter child_only cascade

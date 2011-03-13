@@ -83,7 +83,7 @@
 
 static coSection coCurrentSection;
 static coEnum coCurrentEnum;
-static coCommand coCurrentCommand;
+static coFunction coCurrentFunction;
 
 /*--------------------------------------------------------------------------------------------------
   Provide yyerror function capability.
@@ -1434,7 +1434,7 @@ yyreduce:
     {
     coCurrentSection = coSectionNull;
     coCurrentEnum = coEnumNull;
-    coCurrentCommand = coCommandNull;
+    coCurrentFunction = coFunctionNull;
 ;}
     break;
 
@@ -1498,8 +1498,8 @@ yyreduce:
 #line 134 "coparse.y"
     {
     char *description = utSymGetName((yyvsp[(1) - (2)].stringVal));
-    coCommandSetDescription(coCurrentCommand, description, strlen(description) + 1);
-    coCurrentCommand = coCommandNull;
+    coFunctionSetDescription(coCurrentFunction, description, strlen(description) + 1);
+    coCurrentFunction = coFunctionNull;
 ;}
     break;
 
@@ -1508,7 +1508,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 142 "coparse.y"
     {
-    coCurrentCommand = coCommandCreate((yyvsp[(1) - (4)].symVal), coTypeNull, (yyvsp[(3) - (4)].typeVal));
+    coCurrentFunction = coFunctionCreate((yyvsp[(1) - (4)].symVal), coTypeNull, (yyvsp[(3) - (4)].typeVal));
 ;}
     break;
 
@@ -1517,7 +1517,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 146 "coparse.y"
     {
-    coCurrentCommand = coCommandCreate((yyvsp[(2) - (5)].symVal), (yyvsp[(1) - (5)].typeVal), (yyvsp[(4) - (5)].typeVal));
+    coCurrentFunction = coFunctionCreate((yyvsp[(2) - (5)].symVal), (yyvsp[(1) - (5)].typeVal), (yyvsp[(4) - (5)].typeVal));
 ;}
     break;
 

@@ -1,7 +1,9 @@
 codatabase.o: codatabase.c codatabase.h
+function.o: function.c co.h codatabase.h
 coparse.o: coparse.c co.h codatabase.h
 coscan.o: coscan.c co.h codatabase.h coparse.h
 enum.o: enum.c co.h codatabase.h
+generate.o: generate.c co.h codatabase.h
 main.o: main.c co.h codatabase.h
 read.o: read.c co.h codatabase.h
 section.o: section.c co.h codatabase.h

@@ -22,7 +22,7 @@
 
 static coSection coCurrentSection;
 static coEnum coCurrentEnum;
-static coCommand coCurrentCommand;
+static coFunction coCurrentFunction;
 
 /*--------------------------------------------------------------------------------------------------
   Provide yyerror function capability.
@@ -81,7 +81,7 @@ initialize: /* Empty */
 {
     coCurrentSection = coSectionNull;
     coCurrentEnum = coEnumNull;
-    coCurrentCommand = coCommandNull;
+    coCurrentFunction = coFunctionNull;
 }
 
 commands: /* Empty */
@@ -133,18 +133,18 @@ oneOrMoreEntries: IDENT
 function: STRING functionDef
 {
     char *description = utSymGetName($1);
-    coCommandSetDescription(coCurrentCommand, description, strlen(description) + 1);
-    coCurrentCommand = coCommandNull;
+    coFunctionSetDescription(coCurrentFunction, description, strlen(description) + 1);
+    coCurrentFunction = coFunctionNull;
 }
 ;
 
 functionDef: IDENT '(' fieldList ')'
 {
-    coCurrentCommand = coCommandCreate($1, coTypeNull, $3);
+    coCurrentFunction = coFunctionCreate($1, coTypeNull, $3);
 }
 | type IDENT '(' fieldList ')'
 {
-    coCurrentCommand = coCommandCreate($2, $1, $4);
+    coCurrentFunction = coFunctionCreate($2, $1, $4);
 }
 ;
 

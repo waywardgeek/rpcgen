@@ -3,6 +3,7 @@
 
 // Main routines
 bool coParseCommandFile(char *fileName);
+void coGenerateCommandParser(char *fileName, char *prefix);
 
 // Section methods.
 coSection coSectionCreate(utSym name);
@@ -29,8 +30,8 @@ coValue coEntryValueCreate(utSym val);
 coValue coTupleValueCreate(coValueArray vals);
 coValue coArrayValueCreate(coValueArray vals);
 
-// Command methods.
-coCommand coCommandCreate(utSym name, coType returnType, coType parameterType);
+// Function methods.
+coFunction coFunctionCreate(utSym name, coType returnType, coType parameterType);
 
 extern coRoot coTheRoot;
 

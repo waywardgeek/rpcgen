@@ -4,10 +4,11 @@ LFLAGS=-lm -g
 #LFLAGS=-lm -g -lddutil
 
 SOURCE=codatabase.c \
-command.c \
+function.c \
 coparse.c \
 coscan.c \
 enum.c \
+generate.c \
 main.c \
 read.c \
 section.c \

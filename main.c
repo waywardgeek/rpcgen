@@ -9,8 +9,8 @@ int main(
 {
     char *exeName;
 
-    if(argc != 2) {
-        fprintf(stderr, "Usage: %s commandFile\n", argv[0]);
+    if(argc != 3) {
+        fprintf(stderr, "Usage: %s prefix commandFile\n", argv[0]);
         return 1;
     }
     utStart();
@@ -18,7 +18,8 @@ int main(
     utInitLogFile(utSprintf("%s.log", exeName));
     coDatabaseStart();
     coTheRoot = coRootAlloc();
-    coParseCommandFile(argv[1]);
+    coParseCommandFile(argv[2]);
+    coGenerateCommandParser(argv[2], argv[1]);
     coDatabaseStop();
     utStop(false);
     return 0;
