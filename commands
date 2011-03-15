@@ -1,4 +1,6 @@
-typedef {int year, int month, int day, int hour, int minute, int second} Date
+enum Day (SUN, MON, TUE, WED, THU, FRI, SAT)
+
+typedef {uint16 year, uint8 month, uint8 day, uint8 hour, uint8 minute, uint8 second} Date
 typedef {bool passed, string errorMessage} Result
 
 section "Common commands"
@@ -19,13 +21,13 @@ string helpCommand(string commandName)
 bool loggedIn()
 
 "Returns the amount of money in your account, in cents"
-int balance()
+int32 balance()
 
 "Send money to another account."
-{bool success, string errorString} send(string userName, int amount)
+Result send(string userName, int32 amount)
 
 "List transactions"
-[{Date date, string userName, int amount}] transactions(Date fromDate = {0,0,0,0,0,0},
+[{Date date, string userName, int32 amount}] transactions(Date fromDate = {0,0,0,0,0,0},
     Date toDate = {0,0,0,0,0,0})
 
 section "For manipulating accounts"
@@ -55,19 +57,20 @@ section "Forums"
 Result newPost(string subject, string message)
 
 "List threads in the forum"
-[{int threadID, string subject, int numPosts}] listThreads()
+[{int32 threadID, string subject, int32 numPosts}] listThreads()
 
 "Show posts in a thread"
-[{string shownName, string post}] showPosts(int threadID, int startPost, int endPost)
+[{string shownName, string post}] showPosts(int32 threadID, int32 startPost,
+int32 endPost)
 
 "Reply to a post"
-Result reply(int threadID, int postNumber, string message)
+Result reply(int32 threadID, int32 postNumber, string message)
 
 "Start following a thread"
-Result followThread(int threadID)
+Result followThread(int32 threadID)
 
 "Stop following a thread"
-Result leaveThread(int threadID)
+Result leaveThread(int32 threadID)
 
 section "Administrator only commands"
 

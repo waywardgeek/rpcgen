@@ -95,14 +95,28 @@ static void noDebug(char *foo, ...) {}
 "bool"                          {retKey(KWBOOL);}
 "char"                          {retKey(KWCHAR);}
 "enum"                          {retKey(KWENUM);}
-"int"                           {retKey(KWINT);}
 "float"                         {retKey(KWFLOAT);}
+"double"                        {retKey(KWDOUBLE);}
 "string"                        {retKey(KWSTRING);}
 "typedef"                       {retKey(KWTYPEDEF);}
 "section"                       {retKey(KWSECTION);}
 "true"                          {retKey(KWTRUE);}
 "false"                         {retKey(KWFALSE);}
 
+int[0-9]*                       {if(cotext[3] == '\0') {
+                                     colval.intVal = 32;
+                                 } else {
+                                     colval.intVal = atol(cotext + 3);
+                                 }
+                                 myDebug("KWINT %u\n", colval.intVal);
+                                 return KWINT; }
+uint[0-9]*                      {if(cotext[4] == '\0') {
+                                     colval.intVal = 32;
+                                 } else {
+                                     colval.intVal = atol(cotext + 4);
+                                 }
+                                 myDebug("KWUINT %u\n", colval.intVal);
+                                 return KWUINT; }
 [0-9]+                          { colval.intVal = atoll(cotext);
                                   myDebug("INTEGER %u\n", colval.intVal);
                                   return INTEGER; }

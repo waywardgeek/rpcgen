@@ -18,7 +18,7 @@ coType coIdentTypeCreate(
 {
     coType type = coBasicTypeCreate(CO_UNBOUND);
 
-    coTypeSetName(type, name);
+    coTypeSetNameVal(type, name);
     return type;
 }
 

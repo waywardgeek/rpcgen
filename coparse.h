@@ -42,17 +42,19 @@
      IDENT = 258,
      STRING = 259,
      INTEGER = 260,
-     FLOAT = 261,
-     KWBOOL = 262,
-     KWCHAR = 263,
-     KWENUM = 264,
-     KWFLOAT = 265,
-     KWINT = 266,
-     KWSTRING = 267,
-     KWTYPEDEF = 268,
-     KWSECTION = 269,
-     KWTRUE = 270,
-     KWFALSE = 271
+     KWINT = 261,
+     KWUINT = 262,
+     FLOAT = 263,
+     KWBOOL = 264,
+     KWCHAR = 265,
+     KWENUM = 266,
+     KWFLOAT = 267,
+     KWDOUBLE = 268,
+     KWSTRING = 269,
+     KWTYPEDEF = 270,
+     KWSECTION = 271,
+     KWTRUE = 272,
+     KWFALSE = 273
    };
 #endif
 
@@ -76,7 +78,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 80 "coparse.h"
+#line 82 "coparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

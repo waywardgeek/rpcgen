@@ -7,10 +7,11 @@ coFunction coFunctionCreate(
     coType returnType,
     coType parameterType)
 {
-    coFunction command = coFunctionAlloc();
+    coFunction function = coFunctionAlloc();
 
-    coFunctionSetSym(command, name);
-    coFunctionSetReturnType(command, returnType);
-    coFunctionSetParameterType(command, parameterType);
-    return command;
+    coFunctionSetSym(function, name);
+    coFunctionSetReturnType(function, returnType);
+    coFunctionSetParameterType(function, parameterType);
+    coRootAppendFunction(coTheRoot, function);
+    return function;
 }

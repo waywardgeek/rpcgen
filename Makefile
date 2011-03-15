@@ -12,6 +12,7 @@ generate.c \
 main.c \
 read.c \
 section.c \
+shortcuts.c \
 type.c \
 typedef.c \
 value.c

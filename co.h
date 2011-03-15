@@ -5,6 +5,9 @@
 bool coParseCommandFile(char *fileName);
 void coGenerateCommandParser(char *fileName, char *prefix);
 
+// Shortcuts and utilities
+char *coCapitalize(char *string);
+
 // Section methods.
 coSection coSectionCreate(utSym name);
 

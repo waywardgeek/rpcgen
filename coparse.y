@@ -54,7 +54,7 @@ void coerror(
 
 %token <symVal> IDENT
 %token <stringVal> STRING
-%token <intVal> INTEGER
+%token <intVal> INTEGER KWINT KWUINT
 %token <floatVal> FLOAT
 
 %type <typeVal> type tupleType arrayType fieldList oneOrMoreFields
@@ -65,7 +65,7 @@ void coerror(
 %token KWCHAR
 %token KWENUM
 %token KWFLOAT
-%token KWINT
+%token KWDOUBLE
 %token KWSTRING
 %token KWTYPEDEF
 %token KWSECTION
@@ -165,6 +165,12 @@ type: IDENT // Enum or Typedef
 | KWINT
 {
     $$ = coBasicTypeCreate(CO_INT);
+    coTypeSetWidth($$, $1);
+}
+| KWUINT
+{
+    $$ = coBasicTypeCreate(CO_UINT);
+    coTypeSetWidth($$, $1);
 }
 | KWSTRING
 {
@@ -173,6 +179,10 @@ type: IDENT // Enum or Typedef
 | KWFLOAT
 {
     $$ = coBasicTypeCreate(CO_FLOAT);
+}
+| KWDOUBLE
+{
+    $$ = coBasicTypeCreate(CO_DOUBLE);
 }
 | KWBOOL
 {

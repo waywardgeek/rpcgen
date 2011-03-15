@@ -1,9 +1,11 @@
 module Function co
 
 enum Valtype
-    CO_INT // int64
+    CO_INT
+    CO_UINT
     CO_STRING
-    CO_FLOAT // double
+    CO_FLOAT
+    CO_DOUBLE
     CO_BOOL
     CO_ENUM
     CO_ENTRY
@@ -35,7 +37,8 @@ class Type
         Enum enumVal: CO_ENUM
         Typedef typedefVal: CO_TYPEDEF
         Type arrayTypeVal cascade: CO_ARRAY
-        sym name: CO_UNBOUND
+        sym nameVal: CO_UNBOUND
+        uint8 width: CO_INT CO_UINT
 
 class Field
 
@@ -49,7 +52,8 @@ class Value
         String stringVal cascade: CO_STRING
         double floatVal: CO_FLOAT
         bool boolVal: CO_BOOL
-        sym entryVal: CO_ENTRY
+        Entry entryVal: CO_ENTRY
+        sym nameVal: CO_UNBOUND
         ValueArray tupleVal cascade: CO_TUPLE
         ValueArray arrayVal cascade: CO_ARRAY
 
@@ -64,5 +68,6 @@ relationship Enum Entry doubly_linked mandatory
 relationship Type:Tuple Field hashed mandatory
 relationship Field Type child_only cascade
 relationship Field Value:Default child_only cascade
+relationship Function Typedef:Unnamed cascade
 relationship Function Type:Return child_only cascade
 relationship Function Type:Parameter child_only cascade
