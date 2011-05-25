@@ -4,12 +4,12 @@
 // Create a typedef object.
 coTypedef coTypedefCreate(
     utSym name,
-    coType type)
+    coTyperef typeref)
 {
     coTypedef typeDef = coTypedefAlloc();
 
     coTypedefSetSym(typeDef, name);
-    coTypedefSetType(typeDef, type);
-    coRootInsertTypedef(coTheRoot, typeDef);
+    coTypedefSetTyperef(typeDef, typeref);
+    coRootAppendTypedef(coTheRoot, typeDef);
     return typeDef;
 }

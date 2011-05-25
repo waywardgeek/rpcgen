@@ -71,6 +71,7 @@ typedef union YYSTYPE
     utSym stringVal;
     int64 intVal;
     double floatVal;
+    coTyperef typerefVal;
     coType typeVal;
     coValue valueVal;
     coValueArray valueArrayVal;
@@ -78,7 +79,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 82 "coparse.h"
+#line 83 "coparse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

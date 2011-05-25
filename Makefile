@@ -10,6 +10,7 @@ coscan.c \
 enum.c \
 generate.c \
 main.c \
+preprocess.c \
 read.c \
 section.c \
 shortcuts.c \

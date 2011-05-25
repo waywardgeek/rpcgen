@@ -4,6 +4,7 @@
 // Main routines
 bool coParseCommandFile(char *fileName);
 void coGenerateCommandParser(char *fileName, char *prefix);
+void coPreprocessDataTypes(void);
 
 // Shortcuts and utilities
 char *coCapitalize(char *string);
@@ -12,13 +13,17 @@ char *coCapitalize(char *string);
 coSection coSectionCreate(utSym name);
 
 // Typedef methods.
-coTypedef coTypedefCreate(utSym name, coType type);
+coTypedef coTypedefCreate(utSym name, coTyperef typeref);
 
 // Type methods.
-coType coBasicTypeCreate(coValtype valtype);
-coType coIdentTypeCreate(utSym name);
+coTyperef coBasicTypeCreate(coValtype valtype);
+coTyperef coIntTypeCreate(coValtype valtype, uint8 width);
+coTyperef coIdentTypeCreate(utSym name);
 coType coTupleTypeCreate(void);
-void coAddFieldToTuple(coType tuple, coType type, utSym name, coValue defaultValue);
+coTyperef coArrayTypeCreate(coTyperef typeref);
+coTyperef coPointerTypeCreate(coTyperef typeref);
+void coAddFieldToTuple(coType tuple, coTyperef typeref, utSym name, coValue defaultValue);
+coTyperef coHashTupleType(coType type);
 
 // Enum and entry methods.
 coEnum coEnumCreate(utSym name);
@@ -34,7 +39,7 @@ coValue coTupleValueCreate(coValueArray vals);
 coValue coArrayValueCreate(coValueArray vals);
 
 // Function methods.
-coFunction coFunctionCreate(utSym name, coType returnType, coType parameterType);
+coFunction coFunctionCreate(utSym name, coTyperef returnType, coTyperef parameterType);
 
 extern coRoot coTheRoot;
 

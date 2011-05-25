@@ -8,7 +8,7 @@ coEnum coEnumCreate(
     coEnum Enum = coEnumAlloc();
 
     coEnumSetSym(Enum, name);
-    coRootInsertEnum(coTheRoot, Enum);
+    coRootAppendEnum(coTheRoot, Enum);
     return Enum;
 }
 
@@ -21,6 +21,6 @@ coEntry coEntryCreate(
 
     coEntrySetSym(entry, name);
     coEnumAppendEntry(Enum, entry);
-    coRootInsertEntry(coTheRoot, entry);
+    coRootAppendEntry(coTheRoot, entry);
     return entry;
 }

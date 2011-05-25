@@ -19,6 +19,7 @@ int main(
     coDatabaseStart();
     coTheRoot = coRootAlloc();
     coParseCommandFile(argv[2]);
+    coPreprocessDataTypes();
     coGenerateCommandParser(argv[2], argv[1]);
     coDatabaseStop();
     utStop(false);

@@ -37,7 +37,7 @@ void coerror(
     va_start(ap, message);
     buff = utVsprintf(message, ap);
     va_end(ap);
-    utError("Line %d, token \"%s\": %s", coLineNum, cotext, buff);
+    utExit("Line %d, token \"%s\": %s", coLineNum, cotext, buff);
 }
 
 %}
@@ -47,6 +47,7 @@ void coerror(
     utSym stringVal;
     int64 intVal;
     double floatVal;
+    coTyperef typerefVal;
     coType typeVal;
     coValue valueVal;
     coValueArray valueArrayVal;
@@ -57,7 +58,8 @@ void coerror(
 %token <intVal> INTEGER KWINT KWUINT
 %token <floatVal> FLOAT
 
-%type <typeVal> type tupleType arrayType fieldList oneOrMoreFields
+%type <typerefVal> type tupleType arrayType fieldList
+%type <typeVal> oneOrMoreFields
 %type <valueVal> value optDefaultValue
 %type <valueArrayVal> valueList
 
@@ -140,7 +142,7 @@ function: STRING functionDef
 
 functionDef: IDENT '(' fieldList ')'
 {
-    coCurrentFunction = coFunctionCreate($1, coTypeNull, $3);
+    coCurrentFunction = coFunctionCreate($1, coTyperefNull, $3);
 }
 | type IDENT '(' fieldList ')'
 {
@@ -164,13 +166,11 @@ type: IDENT // Enum or Typedef
 }
 | KWINT
 {
-    $$ = coBasicTypeCreate(CO_INT);
-    coTypeSetWidth($$, $1);
+    $$ = coIntTypeCreate(CO_INT, $1);
 }
 | KWUINT
 {
-    $$ = coBasicTypeCreate(CO_UINT);
-    coTypeSetWidth($$, $1);
+    $$ = coIntTypeCreate(CO_UINT, $1);
 }
 | KWSTRING
 {
@@ -200,9 +200,13 @@ tupleType: '{' fieldList '}'
 
 fieldList: // Empty
 {
-    $$ = coTupleTypeCreate();
+    coType type = coTupleTypeCreate();
+    $$ = coHashTupleType(type);
 }
 | oneOrMoreFields
+{
+    $$ = coHashTupleType($1);
+}
 ;
 
 oneOrMoreFields: type IDENT optDefaultValue
@@ -219,8 +223,7 @@ oneOrMoreFields: type IDENT optDefaultValue
 
 arrayType: '[' type ']'
 {
-    coTypeSetArray($2, true);
-    $$ = $2;
+    $$ = coArrayTypeCreate($2);
 }
 ;
 

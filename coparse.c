@@ -98,7 +98,7 @@ void coerror(
     va_start(ap, message);
     buff = utVsprintf(message, ap);
     va_end(ap);
-    utError("Line %d, token \"%s\": %s", coLineNum, cotext, buff);
+    utExit("Line %d, token \"%s\": %s", coLineNum, cotext, buff);
 }
 
 
@@ -163,6 +163,7 @@ typedef union YYSTYPE
     utSym stringVal;
     int64 intVal;
     double floatVal;
+    coTyperef typerefVal;
     coType typeVal;
     coValue valueVal;
     coValueArray valueArrayVal;
@@ -170,7 +171,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 174 "coparse.c"
+#line 175 "coparse.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -182,7 +183,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 186 "coparse.c"
+#line 187 "coparse.c"
 
 #ifdef short
 # undef short
@@ -481,11 +482,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    77,    77,    81,    87,    88,    91,    92,    93,    94,
-      97,   102,   107,   114,   119,   120,   123,   127,   133,   141,
-     145,   152,   155,   161,   165,   170,   175,   179,   183,   187,
-     191,   192,   195,   202,   205,   208,   213,   220,   227,   231,
-     235,   239,   243,   247,   251,   255,   261,   266
+       0,    79,    79,    83,    89,    90,    93,    94,    95,    96,
+      99,   104,   109,   116,   121,   122,   125,   129,   135,   143,
+     147,   154,   157,   163,   167,   171,   175,   179,   183,   187,
+     191,   192,   195,   202,   206,   212,   217,   224,   230,   234,
+     238,   242,   246,   250,   254,   258,   264,   269
 };
 #endif
 
@@ -1434,7 +1435,7 @@ yyreduce:
         case 3:
 
 /* Line 1455 of yacc.c  */
-#line 81 "coparse.y"
+#line 83 "coparse.y"
     {
     coCurrentSection = coSectionNull;
     coCurrentEnum = coEnumNull;
@@ -1445,7 +1446,7 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 98 "coparse.y"
+#line 100 "coparse.y"
     {
    coCurrentSection = coSectionCreate((yyvsp[(2) - (2)].stringVal));
 ;}
@@ -1454,16 +1455,16 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 103 "coparse.y"
+#line 105 "coparse.y"
     {
-    coTypedefCreate((yyvsp[(3) - (3)].symVal), (yyvsp[(2) - (3)].typeVal));
+    coTypedefCreate((yyvsp[(3) - (3)].symVal), (yyvsp[(2) - (3)].typerefVal));
 ;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 108 "coparse.y"
+#line 110 "coparse.y"
     {
     coCurrentEnum = coEnumNull;
 ;}
@@ -1472,7 +1473,7 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 115 "coparse.y"
+#line 117 "coparse.y"
     {
     coCurrentEnum = coEnumCreate((yyvsp[(2) - (2)].symVal));
 ;}
@@ -1481,7 +1482,7 @@ yyreduce:
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 124 "coparse.y"
+#line 126 "coparse.y"
     {
     coEntryCreate(coCurrentEnum, (yyvsp[(1) - (1)].symVal));
 ;}
@@ -1490,7 +1491,7 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 128 "coparse.y"
+#line 130 "coparse.y"
     {
     coEntryCreate(coCurrentEnum, (yyvsp[(3) - (3)].symVal));
 ;}
@@ -1499,7 +1500,7 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 134 "coparse.y"
+#line 136 "coparse.y"
     {
     char *description = utSymGetName((yyvsp[(1) - (2)].stringVal));
     coFunctionSetDescription(coCurrentFunction, description, strlen(description) + 1);
@@ -1510,25 +1511,25 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 142 "coparse.y"
+#line 144 "coparse.y"
     {
-    coCurrentFunction = coFunctionCreate((yyvsp[(1) - (4)].symVal), coTypeNull, (yyvsp[(3) - (4)].typeVal));
+    coCurrentFunction = coFunctionCreate((yyvsp[(1) - (4)].symVal), coTyperefNull, (yyvsp[(3) - (4)].typerefVal));
 ;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 146 "coparse.y"
+#line 148 "coparse.y"
     {
-    coCurrentFunction = coFunctionCreate((yyvsp[(2) - (5)].symVal), (yyvsp[(1) - (5)].typeVal), (yyvsp[(4) - (5)].typeVal));
+    coCurrentFunction = coFunctionCreate((yyvsp[(2) - (5)].symVal), (yyvsp[(1) - (5)].typerefVal), (yyvsp[(4) - (5)].typerefVal));
 ;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 152 "coparse.y"
+#line 154 "coparse.y"
     {
     (yyval.valueVal) = coValueNull;
 ;}
@@ -1537,7 +1538,7 @@ yyreduce:
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 156 "coparse.y"
+#line 158 "coparse.y"
     {
     (yyval.valueVal) = (yyvsp[(2) - (2)].valueVal);
 ;}
@@ -1546,29 +1547,27 @@ yyreduce:
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 162 "coparse.y"
+#line 164 "coparse.y"
     {
-    (yyval.typeVal) = coIdentTypeCreate((yyvsp[(1) - (1)].symVal));
+    (yyval.typerefVal) = coIdentTypeCreate((yyvsp[(1) - (1)].symVal));
 ;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 166 "coparse.y"
+#line 168 "coparse.y"
     {
-    (yyval.typeVal) = coBasicTypeCreate(CO_INT);
-    coTypeSetWidth((yyval.typeVal), (yyvsp[(1) - (1)].intVal));
+    (yyval.typerefVal) = coIntTypeCreate(CO_INT, (yyvsp[(1) - (1)].intVal));
 ;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 171 "coparse.y"
+#line 172 "coparse.y"
     {
-    (yyval.typeVal) = coBasicTypeCreate(CO_UINT);
-    coTypeSetWidth((yyval.typeVal), (yyvsp[(1) - (1)].intVal));
+    (yyval.typerefVal) = coIntTypeCreate(CO_UINT, (yyvsp[(1) - (1)].intVal));
 ;}
     break;
 
@@ -1577,7 +1576,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 176 "coparse.y"
     {
-    (yyval.typeVal) = coBasicTypeCreate(CO_STRING);
+    (yyval.typerefVal) = coBasicTypeCreate(CO_STRING);
 ;}
     break;
 
@@ -1586,7 +1585,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 180 "coparse.y"
     {
-    (yyval.typeVal) = coBasicTypeCreate(CO_FLOAT);
+    (yyval.typerefVal) = coBasicTypeCreate(CO_FLOAT);
 ;}
     break;
 
@@ -1595,7 +1594,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 184 "coparse.y"
     {
-    (yyval.typeVal) = coBasicTypeCreate(CO_DOUBLE);
+    (yyval.typerefVal) = coBasicTypeCreate(CO_DOUBLE);
 ;}
     break;
 
@@ -1604,7 +1603,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 188 "coparse.y"
     {
-    (yyval.typeVal) = coBasicTypeCreate(CO_BOOL);
+    (yyval.typerefVal) = coBasicTypeCreate(CO_BOOL);
 ;}
     break;
 
@@ -1613,7 +1612,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 196 "coparse.y"
     {
-    (yyval.typeVal) = (yyvsp[(2) - (3)].typeVal);
+    (yyval.typerefVal) = (yyvsp[(2) - (3)].typerefVal);
 ;}
     break;
 
@@ -1622,26 +1621,36 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 202 "coparse.y"
     {
-    (yyval.typeVal) = coTupleTypeCreate();
+    coType type = coTupleTypeCreate();
+    (yyval.typerefVal) = coHashTupleType(type);
+;}
+    break;
+
+  case 34:
+
+/* Line 1455 of yacc.c  */
+#line 207 "coparse.y"
+    {
+    (yyval.typerefVal) = coHashTupleType((yyvsp[(1) - (1)].typeVal));
 ;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 209 "coparse.y"
+#line 213 "coparse.y"
     {
     (yyval.typeVal) = coTupleTypeCreate();
-    coAddFieldToTuple((yyval.typeVal), (yyvsp[(1) - (3)].typeVal), (yyvsp[(2) - (3)].symVal), (yyvsp[(3) - (3)].valueVal));
+    coAddFieldToTuple((yyval.typeVal), (yyvsp[(1) - (3)].typerefVal), (yyvsp[(2) - (3)].symVal), (yyvsp[(3) - (3)].valueVal));
 ;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 214 "coparse.y"
+#line 218 "coparse.y"
     {
-    coAddFieldToTuple((yyvsp[(1) - (5)].typeVal), (yyvsp[(3) - (5)].typeVal), (yyvsp[(4) - (5)].symVal), (yyvsp[(5) - (5)].valueVal));
+    coAddFieldToTuple((yyvsp[(1) - (5)].typeVal), (yyvsp[(3) - (5)].typerefVal), (yyvsp[(4) - (5)].symVal), (yyvsp[(5) - (5)].valueVal));
     (yyval.typeVal) = (yyvsp[(1) - (5)].typeVal)
 ;}
     break;
@@ -1649,17 +1658,16 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 221 "coparse.y"
+#line 225 "coparse.y"
     {
-    coTypeSetArray((yyvsp[(2) - (3)].typeVal), true);
-    (yyval.typeVal) = (yyvsp[(2) - (3)].typeVal);
+    (yyval.typerefVal) = coArrayTypeCreate((yyvsp[(2) - (3)].typerefVal));
 ;}
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 228 "coparse.y"
+#line 231 "coparse.y"
     {
     (yyval.valueVal) = coIntValueCreate((yyvsp[(1) - (1)].intVal));
 ;}
@@ -1668,7 +1676,7 @@ yyreduce:
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 232 "coparse.y"
+#line 235 "coparse.y"
     {
     (yyval.valueVal) = coStringValueCreate((yyvsp[(1) - (1)].stringVal));
 ;}
@@ -1677,7 +1685,7 @@ yyreduce:
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 236 "coparse.y"
+#line 239 "coparse.y"
     {
     (yyval.valueVal) = coFloatValueCreate((yyvsp[(1) - (1)].floatVal));
 ;}
@@ -1686,7 +1694,7 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 240 "coparse.y"
+#line 243 "coparse.y"
     {
     (yyval.valueVal) = coBoolValueCreate(true);
 ;}
@@ -1695,7 +1703,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 244 "coparse.y"
+#line 247 "coparse.y"
     {
     (yyval.valueVal) = coBoolValueCreate(false);
 ;}
@@ -1704,7 +1712,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 248 "coparse.y"
+#line 251 "coparse.y"
     {
     (yyval.valueVal) = coEntryValueCreate((yyvsp[(1) - (1)].symVal));
 ;}
@@ -1713,7 +1721,7 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 252 "coparse.y"
+#line 255 "coparse.y"
     {
     (yyval.valueVal) = coTupleValueCreate((yyvsp[(2) - (3)].valueArrayVal));
 ;}
@@ -1722,7 +1730,7 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 256 "coparse.y"
+#line 259 "coparse.y"
     {
     (yyval.valueVal) = coArrayValueCreate((yyvsp[(2) - (3)].valueArrayVal));
 ;}
@@ -1731,7 +1739,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 262 "coparse.y"
+#line 265 "coparse.y"
     {
     (yyval.valueArrayVal) = coValueArrayAlloc();
     coValueArrayAppendValue((yyval.valueArrayVal), (yyvsp[(1) - (1)].valueVal));
@@ -1741,7 +1749,7 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 267 "coparse.y"
+#line 270 "coparse.y"
     {
     coValueArrayAppendValue((yyvsp[(1) - (3)].valueArrayVal), (yyvsp[(3) - (3)].valueVal));
 ;}
@@ -1750,7 +1758,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1754 "coparse.c"
+#line 1762 "coparse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1962,6 +1970,6 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 272 "coparse.y"
+#line 275 "coparse.y"
 
 

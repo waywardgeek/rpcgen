@@ -12,7 +12,8 @@ enum Valtype
     CO_TUPLE
     CO_ARRAY
     CO_TYPEDEF
-    CO_UNBOUND
+    CO_IDENT
+    CO_POINTER
 
 class Root
 
@@ -30,15 +31,21 @@ class Typedef
 class Function
     array char description
 
+// Types are hashed and unique in structure.
 class Type
     Valtype valtype
-    bool Array
+    uint64 hashKey
     union valtype
         Enum enumVal: CO_ENUM
         Typedef typedefVal: CO_TYPEDEF
-        Type arrayTypeVal cascade: CO_ARRAY
-        sym nameVal: CO_UNBOUND
+        Typeref typerefVal cascade: CO_ARRAY CO_POINTER
+        sym nameVal: CO_IDENT
         uint8 width: CO_INT CO_UINT
+
+// Typerefs allow us to manipulate types without worrying about who points to
+// it.  It also allows us to bind types independently of usage.
+class Typeref
+    Type type
 
 class Field
 
@@ -53,7 +60,7 @@ class Value
         double floatVal: CO_FLOAT
         bool boolVal: CO_BOOL
         Entry entryVal: CO_ENTRY
-        sym nameVal: CO_UNBOUND
+        sym nameVal: CO_IDENT
         ValueArray tupleVal cascade: CO_TUPLE
         ValueArray arrayVal cascade: CO_ARRAY
 
@@ -62,12 +69,14 @@ relationship Root Function hashed
 relationship Root Typedef hashed
 relationship Root Enum hashed
 relationship Root Entry hashed
-relationship Typedef type child_only cascade
+relationship Root Type hashed hashKey
+relationship Root Typeref doubly_linked
+relationship Typedef Typeref child_only cascade
 relationship Section Function doubly_linked
 relationship Enum Entry doubly_linked mandatory
 relationship Type:Tuple Field hashed mandatory
-relationship Field Type child_only cascade
+relationship Field Typeref child_only cascade
 relationship Field Value:Default child_only cascade
 relationship Function Typedef:Unnamed cascade
-relationship Function Type:Return child_only cascade
-relationship Function Type:Parameter child_only cascade
+relationship Function Typeref:Return child_only cascade
+relationship Function Typeref:Parameter child_only cascade

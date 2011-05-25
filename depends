@@ -5,6 +5,7 @@ coscan.o: coscan.c co.h codatabase.h coparse.h
 enum.o: enum.c co.h codatabase.h
 generate.o: generate.c co.h codatabase.h
 main.o: main.c co.h codatabase.h
+preprocess.o: preprocess.c co.h codatabase.h
 read.o: read.c co.h codatabase.h
 section.o: section.c co.h codatabase.h
 shortcuts.o: shortcuts.c co.h codatabase.h

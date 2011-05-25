@@ -8,6 +8,6 @@ coSection coSectionCreate(
     coSection section = coSectionAlloc();
 
     coSectionSetSym(section, name);
-    coRootInsertSection(coTheRoot, section);
+    coRootAppendSection(coTheRoot, section);
     return section;
 }

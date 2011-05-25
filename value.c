@@ -57,7 +57,7 @@ coValue coBoolValueCreate(
 coValue coEntryValueCreate(
     utSym val)
 {
-    coValue value = valueCreate(CO_UNBOUND);
+    coValue value = valueCreate(CO_IDENT);
 
     coValueSetNameVal(value, val);
     return value;
