@@ -20,16 +20,16 @@ value.c
 
 OBJS=$(patsubst %.c,%.o,$(SOURCE))
 
-all: rpcgen
+all: rpclite
 
-rpcgen: depends $(OBJS)
-	gcc $(LFLAGS) -DDD_DEBUG -o rpcgen $(OBJS) -lddutil-dbg
+rpclite: depends $(OBJS)
+	gcc $(LFLAGS) -DDD_DEBUG -o rpclite $(OBJS) -lddutil-dbg
 
 depends: codatabase.h codatabase.c
 	gcc -MM $(CFLAGS) $(SOURCE) > depends
 
 clean:
-	rm -f *.o codatabase.c codatabase.h rpcgen
+	rm -f *.o codatabase.c codatabase.h rpclite
 
 codatabase.c: codatabase.h
 

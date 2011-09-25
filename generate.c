@@ -236,12 +236,35 @@ static void generateHFile(void)
     declareFunctions();
 }
 
+// Create a wrapper for the function.  These things take argc argv, and fill out
+// the various structures needed by the user's function.
+static void writeFunctionWrapper(
+    coFunction function)
+{
+    
+}
+
 // Generate code to parse commands and call the related function.
 static void generateCFile(
     char *HName)
 {
+    coFunction function;
+
     coPrintln("#include <ddutil.h>");
     coPrintln("#include \"%s\"", HName);
+    coPrintln("#include \"rpclite.h\"\n");
+    coForeachRootFunction(coTheRoot, function) {
+        writeFunctionWrapper(function);
+    } coEndRootFunction;
+    coPrint(
+        "/* Register functions */\n"
+        "void rlRegisterFunctions(\n"
+        "    rlServer server)\n"
+        "{\n");
+    coForeachRootFunction(coTheRoot, function) {
+        coPrintln("    rlServerRegisterFunction(server, \"%s\", coFunctionGetName(function));");
+    } coEndRootFunction;
+    coPrintln("}");
 }
 
 // Generate both the hearder file and command parser.

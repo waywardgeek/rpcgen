@@ -1,2 +1,2 @@
-RPC-gen works with the comserial library to make building web services simple
+RPC-Lite works with the comserial library to make building web services simple
 and efficient.  Java and C/C++ are supportd clients, while the server is C/C++.
